@@ -10,6 +10,7 @@ import argparse
 import json
 import os
 import pwd
+import shutil
 from pathlib import Path
 import subprocess
 import sys
@@ -78,7 +79,22 @@ def share_guard(directory):
     storage.check_mount(storage.mount_record(target),state['device'],'rw')
 
 
-def validate(pool, destination, config, pause_for_share=False):
+def check_native_layout(point, uid):
+    entries = list(point.iterdir())
+    if (any(p.name in {str(uid), '@team', 'thumb'} for p in entries)
+            or any(p.is_symlink() or not p.is_dir() for p in entries)):
+        raise view.ValidationError('原目录布局不支持自动接管，原盘未进行兼容写入')
+    return len(entries)
+
+
+def require_cow_space(parent):
+    # Keep headroom on the state filesystem instead of consuming all free
+    # system space with the independent 2 GiB test file.
+    if shutil.disk_usage(parent).free < 3 * 1024**3:
+        raise view.ValidationError('隔离验证需要至少 3 GiB 可用空间（含系统预留空间）')
+
+
+def validate(pool, destination, config, pause_for_share=False, native_ready=False):
     policy = storage.disk_safety.check_config(config)
     if pool not in config['pools'] or pool.get('mode', 'ro') != 'ro':
         raise view.ValidationError('COW validation requires a configured readonly origin')
@@ -94,7 +110,8 @@ def validate(pool, destination, config, pause_for_share=False):
         storage.disk_safety.array_members(md, policy, pool['id'])
         view.guard_device(fd)
     finally: os.close(fd)
-    root=Path(destination).absolute();root.mkdir(mode=0o700,exist_ok=False)
+    root=Path(destination).absolute();require_cow_space(root.parent)
+    root.mkdir(mode=0o700,exist_ok=False)
     cow=root/'cow.raw'; cow_fd=os.open(cow,os.O_RDWR|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600)
     try: os.posix_fallocate(cow_fd,0,2*1024**3);os.fsync(cow_fd)
     finally: os.close(cow_fd)
@@ -131,6 +148,10 @@ def validate(pool, destination, config, pause_for_share=False):
             if scan(fd)[0][0]['ugacl']: raise view.ValidationError('COW compatibility patch did not apply')
         finally: os.close(fd)
         view.run('mount','-t','btrfs','-o','rw,nodiscard,nosuid,nodev,noexec',state['device'],str(point));mounted=True
+        if native_ready:
+            count = check_native_layout(point, uid)
+            report['native_layout_checked'] = True
+            report['native_top_directory_count'] = count
         if pause_for_share:
             view.run('setfacl','-m','u:%d:rwx,d:u:%d:rwx' % (uid,uid),str(point))
         new=point/('ugacltool-write-probe-'+token);new.mkdir(mode=0o700);os.chown(new,uid,gid)
@@ -219,9 +240,10 @@ if __name__=='__main__':
     parser.add_argument('--pool',required=True)
     parser.add_argument('--directory',required=True)
     parser.add_argument('--pause-for-share',action='store_true')
+    parser.add_argument('--native-ready',action='store_true')
     args=parser.parse_args()
     view.require_host()
     cfg=storage.validate_config(storage.private_json(args.config))
     pool=next(p for p in cfg['pools'] if p['id']==args.pool)
-    result=validate(pool,args.directory,cfg,args.pause_for_share)
+    result=validate(pool,args.directory,cfg,args.pause_for_share,args.native_ready)
     print(json.dumps({k:v for k,v in result.items() if k not in ('offline_check','device_stats')}))

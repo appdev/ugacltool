@@ -5,8 +5,10 @@ No discovery result becomes permission to write. Operators supply serial,
 model and exact whole-disk bytes; system roots are independently checked.
 """
 import json
+import os
 from pathlib import Path
 import re
+import stat
 import subprocess
 
 from patch_btrfs_ugos import ValidationError
@@ -97,7 +99,40 @@ def select_disk(disks, expected):
     return disk
 
 
-def system_serials(disks, sysfs=Path('/sys/dev/block'), mounts=Path('/proc/self/mountinfo')):
+def block_device_id(source):
+    if not source.startswith('/dev/') or '..' in Path(source).parts:
+        raise ValidationError('Btrfs system source is not a device path')
+    info = os.stat(source)
+    if not stat.S_ISBLK(info.st_mode):
+        raise ValidationError('Btrfs system source is not a block device')
+    return '%d:%d' % (os.major(info.st_rdev), os.minor(info.st_rdev))
+
+
+def mounted_btrfs_members(source, btrfs_sysfs):
+    """Btrfs mountinfo uses an anonymous dev_t; protect every real member."""
+    source_dev = block_device_id(source)
+    matches = []
+    for filesystem in btrfs_sysfs.iterdir():
+        directory = filesystem/'devices'
+        if not directory.is_dir():
+            continue
+        members = []
+        for device in directory.iterdir():
+            try:
+                members.append((device/'dev').read_text().strip())
+            except FileNotFoundError:
+                members.append(None)
+        if source_dev in members:
+            matches.append(members)
+    if (len(matches) != 1 or not matches[0]
+            or any(not isinstance(dev, str) or not re.fullmatch(r'[1-9][0-9]*:[0-9]+', dev)
+                   for dev in matches[0]) or len(set(matches[0])) != len(matches[0])):
+        raise ValidationError('Complete Btrfs system members cannot be established')
+    return set(matches[0])
+
+
+def system_serials(disks, sysfs=Path('/sys/dev/block'), mounts=Path('/proc/self/mountinfo'),
+                   btrfs_sysfs=Path('/sys/fs/btrfs')):
     """Trace root/boot/home/native space1 through partitions and DM/MD slaves."""
     roots = set()
     for line in mounts.read_text().splitlines():
@@ -105,9 +140,17 @@ def system_serials(disks, sysfs=Path('/sys/dev/block'), mounts=Path('/proc/self/
         if len(fields) < 6:
             raise ValidationError('Malformed system mount inventory')
         if fields[4] in CRITICAL_MOUNTS:
-            if not re.fullmatch(r'[1-9][0-9]*:[0-9]+', fields[2]):
+            if '-' not in fields or len(fields) < fields.index('-') + 4:
+                raise ValidationError('Malformed system mount filesystem')
+            separator = fields.index('-')
+            if fields[separator+1] == 'btrfs':
+                # The kernel supplies mount source and sysfs membership. Never
+                # assume the first source disk is the whole Btrfs filesystem.
+                roots.update(mounted_btrfs_members(fields[separator+2], btrfs_sysfs))
+            elif not re.fullmatch(r'[1-9][0-9]*:[0-9]+', fields[2]):
                 raise ValidationError('System mount does not resolve to supported block storage')
-            roots.add(fields[2])
+            else:
+                roots.add(fields[2])
     if not roots:
         raise ValidationError('Cannot identify system storage')
     serials, visiting = set(), set()

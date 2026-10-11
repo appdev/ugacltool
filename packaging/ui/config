@@ -1,0 +1,14 @@
+{
+  ".url": {
+    "ugacltool.main": {
+      "title": "绿联阵列接管",
+      "icon": "images/icon_{0}.png",
+      "type": "iframe",
+      "protocol": "",
+      "gatewayPrefix": "/app/ugacltool",
+      "gatewaySocket": "app.sock",
+      "url": "/app/ugacltool",
+      "allUsers": false
+    }
+  }
+}

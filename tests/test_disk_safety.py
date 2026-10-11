@@ -118,6 +118,40 @@ class ExplicitDiskGuards(unittest.TestCase):
                 with self.assertRaises(safety.ValidationError):
                     safety.array_members(md, self.policy(), 'pool1')
 
+    def test_anonymous_btrfs_system_mount_protects_all_members(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory); sysfs=root/'sys'; sysfs.mkdir()
+            btrfs=root/'btrfs'; devices=btrfs/'synthetic-fsid/devices'; devices.mkdir(parents=True)
+            for dev, name in (('8:0','sda'),('8:16','sdb')):
+                disk=root/name; disk.mkdir(); (disk/'dev').write_text(dev)
+                (sysfs/dev).symlink_to(disk); (devices/name).symlink_to(disk)
+            mounts=root/'mountinfo'; mounts.write_text('1 0 0:58 / /vol1 rw - btrfs /dev/sda rw\n')
+            with mock.patch.object(safety,'block_device_id',return_value='8:0'):
+                self.assertEqual(safety.system_serials(self.inventory(),sysfs,mounts,btrfs),
+                                 {'SYNTH-SYSTEM','SYNTH-ARRAY'})
+
+    def test_btrfs_system_members_missing_duplicate_or_ambiguous_refused(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory); members=root/'a/devices'; members.mkdir(parents=True)
+            device=members/'sda'; device.mkdir(); (device/'dev').write_text('8:0')
+            with mock.patch.object(safety,'block_device_id',return_value='8:0'):
+                self.assertEqual(safety.mounted_btrfs_members('/dev/sda',root),{'8:0'})
+                missing=members/'missing'; missing.mkdir()
+                with self.assertRaises(safety.ValidationError):safety.mounted_btrfs_members('/dev/sda',root)
+                (missing/'dev').write_text('8:0')
+                with self.assertRaises(safety.ValidationError):safety.mounted_btrfs_members('/dev/sda',root)
+                (missing/'dev').write_text('8:16')
+                other=root/'b/devices/sda'; other.mkdir(parents=True); (other/'dev').write_text('8:0')
+                with self.assertRaises(safety.ValidationError):safety.mounted_btrfs_members('/dev/sda',root)
+                (device/'dev').write_text('8:32'); (other/'dev').write_text('8:48')
+                with self.assertRaises(safety.ValidationError):safety.mounted_btrfs_members('/dev/sda',root)
+
+    def test_btrfs_system_source_must_be_a_real_block_device(self):
+        with self.assertRaises(safety.ValidationError):
+            safety.mounted_btrfs_members('/dev/null',Path('unused'))
+        with self.assertRaises(safety.ValidationError):
+            safety.mounted_btrfs_members('/tmp/foreign',Path('unused'))
+
     def test_start_and_conversion_refuse_missing_policy_before_runtime_or_state_changes(self):
         cfg = config(); del cfg['disk_safety']
         with tempfile.TemporaryDirectory() as directory:

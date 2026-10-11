@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>绿联阵列接管</title>
+  <link rel="stylesheet" href="/app/ugacltool/style.css">
+  <script src="/app/ugacltool/app.js" defer></script>
+</head>
+<body>
+  <main>
+    <header><p class="eyebrow">UGACLTOOL</p><h1>把原来的阵列接着用</h1><p>将绿联阵列接入飞牛原生存储空间，保留原盘上的文件。</p></header>
+    <p id="demo" class="notice" hidden>界面演示 · 所有硬盘和操作均为模拟，不会转换真实阵列。</p>
+    <section aria-labelledby="arrays-title">
+      <div class="section-heading"><h2 id="arrays-title">选择绿联阵列</h2><button id="scan" class="secondary">重新扫描</button></div>
+      <p class="hint">请核对每块成员盘的序列号和容量。系统盘、缺盘阵列及已有飞牛空间不能接管。</p>
+      <div id="arrays" aria-live="polite"><p>正在读取阵列信息…</p></div>
+      <div class="action"><div><p id="selected">尚未选择阵列</p><p class="hint">先自动验证，验证通过后才修改兼容标记并登记存储空间。旧文件不搬迁。</p></div><button id="adopt" disabled>一键接管</button></div>
+    </section>
+    <p id="error" role="alert" hidden></p>
+    <section aria-labelledby="jobs-title"><h2 id="jobs-title">接管进度</h2><div id="jobs" aria-live="polite"><p class="hint">选择阵列后，进度会显示在这里。</p></div></section>
+    <footer><p>当前仅支持已验证的 fnOS 版本与完整 MD / LVM / Btrfs 结构。扩容、修复等管理能力尚未验证。</p></footer>
+  </main>
+</body>
+</html>

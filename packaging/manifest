@@ -1,0 +1,14 @@
+appname=ugacltool
+version=0.2.0
+display_name=绿联阵列接管
+desc=保留原文件，将已验证的绿联 Btrfs 阵列接入飞牛原生存储空间。
+platform=x86
+source=thirdparty
+maintainer=appdev
+maintainer_url=https://github.com/appdev/ugacltool
+desktop_uidir=ui
+desktop_applaunchname=ugacltool.main
+os_min_version=1.2.0701
+os_max_version=1.2.0701
+install_type=root
+ctl_stop=true

@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+# Refuse package changes during an active adoption. Never stop array maintenance.
+exec /usr/bin/python3 -B "${TRIM_APPDEST:?}/scripts/fnos_app_lifecycle.py" stop
