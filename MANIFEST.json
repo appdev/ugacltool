@@ -36,7 +36,7 @@
     "tests/test_readonly_view.py": "15078813bec37a3199184b26e52d04b21020874af6c4cfb025aa77a4f7fee380",
     "tests/test_real_cow_guards.py": "8c2ac4f6ae338f3e725e0f3e92f0a0d81ebdf442303b1f425f05a9c266595be3",
     "tools/build_fpk.py": "73b431a28d720251dfbb222d211c6b896720167a1748fd6991049c8005cc7ea6",
-    "tools/build_release.py": "6e474b27e27dddcb7e6e580376fcd19ef008d5d65872bf533326410d889c9bf6",
+    "tools/build_release.py": "6b593a7cbdecbb7bc122977c161b5b3ac92ab73c7bc9e303c460caed103243b2",
     "tools/check_config.py": "aee28bbcf9211d80a2e488c2b8ac874ee297eabf1ca1eeb029414e9166a02095",
     "tools/validate_real_cow.py": "bfd9687fac86a92d8cf61ed293c4063a25244e18cf69cf17acae88f1c14b868a",
     "web/app.js": "3837dbfa89431f1e8e076a5e58545d7fe72ae4930f6d884aa1d14b5bbb597046",
