@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "uid": 1000,
+  "gid": 1001,
+  "personal_base": "/vol1/1000/UGREEN",
+  "personal_permissions": "owner",
+  "refresh_bridge_on_stop": true,
+  "disk_safety": {
+    "version": 1,
+    "protected_disks": [
+      {"serial": "__SYSTEM_SERIAL__", "model": "__SYSTEM_MODEL__", "size": 0, "role": "system"},
+      {"serial": "__OLD_SYSTEM_SERIAL__", "model": "__OLD_SYSTEM_MODEL__", "size": 0, "role": "old-system"},
+      {"serial": "__TEST_SERIAL__", "model": "__TEST_MODEL__", "size": 0, "role": "test"}
+    ],
+    "test_disk": {"serial": "__TEST_SERIAL__", "model": "__TEST_MODEL__", "size": 0},
+    "pools": {
+      "pool1": [
+        {"serial": "__POOL1_MEMBER1_SERIAL__", "model": "__POOL1_MEMBER1_MODEL__", "size": 0}
+      ],
+      "pool2": [
+        {"serial": "__POOL2_MEMBER1_SERIAL__", "model": "__POOL2_MEMBER1_MODEL__", "size": 0}
+      ],
+      "pool3": [
+        {"serial": "__POOL3_MEMBER1_SERIAL__", "model": "__POOL3_MEMBER1_MODEL__", "size": 0},
+        {"serial": "__POOL3_MEMBER2_SERIAL__", "model": "__POOL3_MEMBER2_MODEL__", "size": 0},
+        {"serial": "__POOL3_MEMBER3_SERIAL__", "model": "__POOL3_MEMBER3_MODEL__", "size": 0},
+        {"serial": "__POOL3_MEMBER4_SERIAL__", "model": "__POOL3_MEMBER4_MODEL__", "size": 0}
+      ]
+    }
+  },
+  "pools": [
+    {
+      "id": "pool1", "vg": "ug_EXAMPLE_pool1", "lv": "volume1",
+      "source": "/dev/ug_EXAMPLE_pool1/volume1", "mount": "/mnt/ugreen/pool1",
+      "fsid": "__POOL1_FSID__", "device_uuid": "__POOL1_DEVICE_UUID__",
+      "md_uuid": "__POOL1_MD_UUID__", "lv_uuid": "__POOL1_LV_UUID__",
+      "size": 0, "members": 1, "mode": "ro"
+    },
+    {
+      "id": "pool2", "vg": "ug_EXAMPLE_pool2", "lv": "volume1",
+      "source": "/dev/ug_EXAMPLE_pool2/volume1", "mount": "/mnt/ugreen/pool2",
+      "fsid": "__POOL2_FSID__", "device_uuid": "__POOL2_DEVICE_UUID__",
+      "md_uuid": "__POOL2_MD_UUID__", "lv_uuid": "__POOL2_LV_UUID__",
+      "size": 0, "members": 1, "mode": "ro"
+    },
+    {
+      "id": "pool3", "vg": "ug_EXAMPLE_pool3", "lv": "volume1",
+      "source": "/dev/ug_EXAMPLE_pool3/volume1", "mount": "/mnt/ugreen/pool3",
+      "fsid": "__POOL3_FSID__", "device_uuid": "__POOL3_DEVICE_UUID__",
+      "md_uuid": "__POOL3_MD_UUID__", "lv_uuid": "__POOL3_LV_UUID__",
+      "size": 0, "members": 4, "mode": "ro"
+    }
+  ]
+}

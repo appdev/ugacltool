@@ -1,0 +1,28 @@
+{
+  "format": 1,
+  "sha256": {
+    ".gitignore": "a4569831964dd9df5310c75f9bd26e70cd5da86be61f7bd2989260b98c884da3",
+    "README.md": "2cf0057ccc85a1ac4151cccdd8e8f1e0c3e1db278e87f22c404b63d60490f84a",
+    "examples/storage.json.example": "74ee41e854f65050e41cc06d679b576008733792f2f5990f42ddb5feebb35dcf",
+    "examples/ugacltool-storage.service.example": "0457a527297b78302f481668a51705c3c23b5c9103672b64261ac2497f97edb0",
+    "scripts/btrfs_readonly_view.py": "dfdff8a0fc16cae99bf3369f7f049bf45a31e12b51136116dbd2103aec42854c",
+    "scripts/convert_fnos.py": "301d3b9c30cff93311d4c40272637890afdf18f268c9531232f9119500554bb6",
+    "scripts/disk_safety.py": "0c657357649d2c94b5f05243f9a7e69f0c58454f68a4fe55fef1f561e84c7d1e",
+    "scripts/fnos_native_adopt.py": "701d0014cc73b6b0bf49444315a567dfe0334da8a498b516002218a9b6c76f7a",
+    "scripts/fnos_native_lab.py": "3b4e207a416a1501e67f855b829987031b5cb50a78b771aac3f04a034357ee48",
+    "scripts/fnos_storage.py": "341a44fd89b8d313048843fc24eda9e13a0505ad133575b4904aa50e4aaf89f2",
+    "scripts/patch_btrfs_ugos.py": "bfae8eef39f719436db977ecc54f9655131ddda764e548c8c4a97db066082fe6",
+    "tests/test_btrfs_ugos.py": "1c84ce7e9c344c4f1daef907dd34ba17fbb4a6ae36b5f66c31d2f6b1a3eee400",
+    "tests/test_disk_safety.py": "da557b4fdfcef0d21589e6b3da401fb379e0f4ba7dc702227542a1797620cdb4",
+    "tests/test_fnos_conversion.py": "b57b7bf2f4de55ed94847def28d2fcc1ebb43d3b37dc33276794b09c0a5c8ec2",
+    "tests/test_fnos_native_adopt.py": "6588607d5cd282d0878792c2e61f87f37ad8e13e16560e64842d959bb0e02c53",
+    "tests/test_fnos_storage.py": "adbab738c6b9c93f0849e87113f1b56582829fb8f6935bac6813b021d7bdb3a6",
+    "tests/test_native_lab.py": "26d798f95357904eb9788479a1dc7d607ee036c1e98eecc08d3be3dfc617e9cc",
+    "tests/test_policy_assessment.py": "ea034f2c74199f560f5c6ef358c23dbf106994ed06a42eace5955bb53a95873b",
+    "tests/test_readonly_view.py": "15078813bec37a3199184b26e52d04b21020874af6c4cfb025aa77a4f7fee380",
+    "tests/test_real_cow_guards.py": "fe612c593349c25054c2d707ff1d87720874ad5ec54cbb45a789b1df7de30877",
+    "tools/build_release.py": "8f7deb8259c7bfab189ca909d8453a000e2e4f9a8f65ac44fc5b6e579fced887",
+    "tools/check_config.py": "aee28bbcf9211d80a2e488c2b8ac874ee297eabf1ca1eeb029414e9166a02095",
+    "tools/validate_real_cow.py": "7fdae92d84e3000436c19e08c134cef81bd0aea18022b89ca98ce7b4fc113561"
+  }
+}

@@ -1,0 +1,15 @@
+[Unit]
+Description=Guarded access to adopted UGREEN Btrfs arrays
+After=system_startup.service trim_main.service lvm2-monitor.service
+RequiresMountsFor=/vol1
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/python3 /usr/local/lib/ugacltool/fnos_storage.py --config /etc/ugacltool/storage.json --state /var/lib/ugacltool start
+ExecStop=/usr/bin/python3 /usr/local/lib/ugacltool/fnos_storage.py --config /etc/ugacltool/storage.json --state /var/lib/ugacltool stop
+TimeoutStartSec=180
+TimeoutStopSec=180
+
+[Install]
+WantedBy=multi-user.target
