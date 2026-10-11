@@ -1,7 +1,7 @@
 {
   ".url": {
     "ugacltool.main": {
-      "title": "绿联阵列接管",
+      "title": "绿联阵列转换",
       "icon": "images/icon_{0}.png",
       "type": "iframe",
       "protocol": "",

@@ -2,7 +2,7 @@
   "format": 1,
   "sha256": {
     ".gitignore": "a4569831964dd9df5310c75f9bd26e70cd5da86be61f7bd2989260b98c884da3",
-    "README.md": "c7d7e3a161d11c819f6eb31704c199e267108ac5b30eefd82afea82907d9b02a",
+    "README.md": "b2c3d74377064fc53b97268dd6738262a605d9dd46693d3b59642b1b0855285b",
     "examples/storage.json.example": "74ee41e854f65050e41cc06d679b576008733792f2f5990f42ddb5feebb35dcf",
     "examples/ugacltool-storage.service.example": "0457a527297b78302f481668a51705c3c23b5c9103672b64261ac2497f97edb0",
     "packaging/cmd/install_init": "bedc1f07d80ed13c4d1cbd56576b59128dd2e058fd9f91fd276f5bc95cdf367e",
@@ -11,8 +11,8 @@
     "packaging/cmd/stop_for_update": "fa75f67d9e8b8026b76c158832e1718bd974ebf10231d1d3fd01a8b7b3ae498c",
     "packaging/config/privilege": "76fea5cdfb68ddef5c13643f9ae72bdda87a6c729d26678de3730015c560bf8c",
     "packaging/config/resource": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
-    "packaging/manifest": "cfff488f53318708eb669dd28341f2dff38c97f2877e4a5058d5003132c5d349",
-    "packaging/ui/config": "78252386f1072e78284db1f3105194dcd32f8d829d2caa758c162a436ee66087",
+    "packaging/manifest": "8461051d9f39fb83f9d021f117f47f8f9af7c543b9cca1c6047fb46ec1acfb75",
+    "packaging/ui/config": "acd5dbde38e026352563b8e0febe5149c99edbefa7fc4fc42a3959d3b222032b",
     "scripts/btrfs_readonly_view.py": "dfdff8a0fc16cae99bf3369f7f049bf45a31e12b51136116dbd2103aec42854c",
     "scripts/convert_fnos.py": "301d3b9c30cff93311d4c40272637890afdf18f268c9531232f9119500554bb6",
     "scripts/disk_safety.py": "514ef51fad9dd3fdcc0ab6c9f2c183effc6452bcb0ccde908bd0767a6326f761",
@@ -40,7 +40,7 @@
     "tools/check_config.py": "aee28bbcf9211d80a2e488c2b8ac874ee297eabf1ca1eeb029414e9166a02095",
     "tools/validate_real_cow.py": "bfd9687fac86a92d8cf61ed293c4063a25244e18cf69cf17acae88f1c14b868a",
     "web/app.js": "3837dbfa89431f1e8e076a5e58545d7fe72ae4930f6d884aa1d14b5bbb597046",
-    "web/index.html": "85797bf7507a6b59a53f2f0ec18d07304a2101ac04fcc99f97d9e1e9deb860a2",
+    "web/index.html": "4ad15bdfdc61744c82a1efc9ee0a074a6938958d9ee9a8f29fd4545ff919653e",
     "web/style.css": "af7c700dfe9b2b18c504d498ba0e44382822d461d628a4a9f748e3426dba4fad"
   }
 }
